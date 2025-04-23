@@ -1,0 +1,95 @@
+---
+---
+
+<section id="about" class="py-20 bg-primary text-white">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="order-2 lg:order-1">
+          <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">About Our Fashion Events</h2>
+          <p class="text-lg mb-6 text-white/90">For over 15 years, we've been curating the most exclusive fashion events around the world. Our team of experts works closely with designers, models, and industry professionals to create unforgettable experiences.</p>
+          <p class="text-lg mb-8 text-white/90">From runway shows to intimate designer showcases, our events are known for their creativity, impeccable organization, and attention to detail.</p>
+          
+          <div class="grid grid-cols-2 gap-6 mb-8">
+            <div>
+              <div class="text-3xl font-bold text-accent mb-2">150+</div>
+              <p class="text-white/80">Events Organized</p>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-accent mb-2">50+</div>
+              <p class="text-white/80">Global Partners</p>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-accent mb-2">12K+</div>
+              <p class="text-white/80">Attendees Yearly</p>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-accent mb-2">15+</div>
+              <p class="text-white/80">Years of Excellence</p>
+            </div>
+          </div>
+          
+          <a href="#" class="inline-block bg-accent text-white font-medium py-3 px-6 rounded hover:bg-accent/90 transition-colors">Our Story</a>
+        </div>
+        
+        <div class="order-1 lg:order-2 relative">
+          <div class="aspect-square overflow-hidden rounded-lg shadow-xl">
+            <img src="/images/about.jpg" alt="Fashion event" class="w-full h-full object-cover">
+          </div>
+          <div class="absolute -bottom-6 -left-6 w-48 h-48 bg-accent/20 rounded-full blur-2xl"></div>
+          <div class="absolute -top-6 -right-6 w-32 h-32 bg-accent/30 rounded-full blur-xl"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+    
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // About section animations
+    gsap.from('#about h2', {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top 70%',
+      }
+    });
+    
+    gsap.from('#about p', {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      stagger: 0.2,
+      delay: 0.2,
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top 70%',
+      }
+    });
+    
+    gsap.from('#about .grid-cols-2 > div', {
+      opacity: 0,
+      y: 20,
+      duration: 0.6,
+      stagger: 0.15,
+      delay: 0.4,
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top 70%',
+      }
+    });
+    
+    gsap.from('#about img', {
+      scale: 1.2,
+      opacity: 0,
+      duration: 1.2,
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top 70%',
+      }
+    });
+  </script>

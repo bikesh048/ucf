@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Fashion Events</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-secondary text-primary">
+    <slot />
+    <script>
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+      
+      gsap.registerPlugin(ScrollTrigger);
+      
+      // Initialize any global animations
+      gsap.from('.fade-in', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.fade-in',
+          start: 'top 80%',
+        },
+      });
+    </script>
+  </body>
+</html>
