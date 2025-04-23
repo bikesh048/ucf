@@ -1,8 +1,12 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@astrojs/tailwind";
+// import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  integrations: [tailwind()],
+  integrations: [tailwindcss()], // vite: {
+  //   plugins: [tailwindcss()],
+  // },
   site: "https://bikesh048.github.io",
-  base: "./",
+  base: "/ucf",
+  publicDir: "./public",
 });

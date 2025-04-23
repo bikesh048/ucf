@@ -1,5 +1,10 @@
 ---
+import { Image } from 'astro:assets';
+import fashionShow1Image from '../assets/images/fashion-show-1.jpg';
+import fashionShow2Image from '../assets/images/fashion-show-2.jpg';
+import fashionShow3Image from '../assets/images/fashion-show-3.jpg';
 ---
+
 <section class="relative h-screen w-full overflow-hidden">
   <!-- Carousel Container -->
   <div class="carousel-container h-full w-full relative">
@@ -8,7 +13,7 @@
       <!-- Slide 1 -->
       <div class="carousel-slide absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-800 ease-in-out">
         <div class="absolute inset-0 bg-black/30 z-10"></div>
-        <img src="/images/fashion-show-1.jpg" alt="Spring Collection" class="w-full h-full object-cover">
+        <Image src={fashionShow1Image} alt="Spring Collection" class="w-full h-full object-cover" />
         <div class="absolute inset-0 flex items-center z-20 px-12">
           <div class="max-w-2xl">
             <h2 class="text-4xl md:text-6xl font-display font-bold text-white mb-4 transform translate-y-8 opacity-0 transition-all duration-800 ease-out">Spring Collection 2023</h2>
@@ -21,7 +26,7 @@
       <!-- Slide 2 -->
       <div class="carousel-slide absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-800 ease-in-out">
         <div class="absolute inset-0 bg-black/30 z-10"></div>
-        <img src="/images/fashion-show-2.jpg" alt="Designer Showcase" class="w-full h-full object-cover">
+        <Image src={fashionShow2Image} alt="Designer Showcase" class="w-full h-full object-cover" />
         <div class="absolute inset-0 flex items-center z-20 px-12">
           <div class="max-w-2xl">
             <h2 class="text-4xl md:text-6xl font-display font-bold text-white mb-4 transform translate-y-8 opacity-0 transition-all duration-800 ease-out">Emerging Designers</h2>
@@ -34,7 +39,7 @@
       <!-- Slide 3 -->
       <div class="carousel-slide absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-800 ease-in-out">
         <div class="absolute inset-0 bg-black/30 z-10"></div>
-        <img src="/images/fashion-show-3.jpg" alt="VIP Experience" class="w-full h-full object-cover">
+        <Image src={fashionShow3Image} alt="VIP Experience" class="w-full h-full object-cover" />
         <div class="absolute inset-0 flex items-center z-20 px-12">
           <div class="max-w-2xl">
             <h2 class="text-4xl md:text-6xl font-display font-bold text-white mb-4 transform translate-y-8 opacity-0 transition-all duration-800 ease-out">Exclusive VIP Night</h2>
@@ -99,10 +104,17 @@
     const prevBtn = document.querySelector('.carousel-prev');
     const nextBtn = document.querySelector('.carousel-next');
     const indicators = document.querySelectorAll('.carousel-indicator');
+    const carousel = document.querySelector('.carousel-container');
+    
+    // Early return if required elements aren't found
+    if (!slides.length || !prevBtn || !nextBtn || !indicators.length || !carousel) {
+      console.error('Carousel elements not found');
+      return;
+    }
     
     let currentIndex = 0;
     let isAnimating = false;
-    let autoSlideInterval;
+    let autoSlideInterval: number | undefined;
     const slideCount = slides.length;
     
     // Initialize the carousel
@@ -113,7 +125,7 @@
     }
     
     // Transition to specific slide
-    function goToSlide(index, animate = true) {
+    function goToSlide(index: number, animate = true) {
       if (isAnimating) return;
       isAnimating = true;
       
@@ -122,15 +134,17 @@
       if (index < 0) index = slideCount - 1;
       
       // Handle current active slide
-      const currentSlide = slides[currentIndex];
+      const currentSlide = slides[currentIndex] as HTMLElement;
       currentSlide.classList.remove('active');
       
       // Reset content animations for the current slide
       if (animate) {
         const currentContent = currentSlide.querySelectorAll('h2, p, a');
         currentContent.forEach(element => {
-          element.style.opacity = '0';
-          element.style.transform = 'translateY(2rem)';
+          if (element instanceof HTMLElement) {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(2rem)';
+          }
         });
       }
       
@@ -138,17 +152,19 @@
       currentIndex = index;
       
       // Activate new slide
-      const newSlide = slides[currentIndex];
+      const newSlide = slides[currentIndex] as HTMLElement;
       setTimeout(() => {
         newSlide.classList.add('active');
         
         // Animate content for new slide
         const newContent = newSlide.querySelectorAll('h2, p, a');
         newContent.forEach((element, i) => {
-          setTimeout(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-          }, i * 150);
+          if (element instanceof HTMLElement) {
+            setTimeout(() => {
+              element.style.opacity = '1';
+              element.style.transform = 'translateY(0)';
+            }, i * 150);
+          }
         });
         
         // Update indicators
@@ -169,13 +185,16 @@
     
     function startAutoSlide() {
       stopAutoSlide(); // Clear any existing interval
-      autoSlideInterval = setInterval(() => {
+      autoSlideInterval = window.setInterval(() => {
         goToSlide(currentIndex + 1);
       }, 6000);
     }
     
     function stopAutoSlide() {
-      clearInterval(autoSlideInterval);
+      if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = undefined;
+      }
     }
     
     // Event listeners
@@ -193,17 +212,19 @@
     
     indicators.forEach(indicator => {
       indicator.addEventListener('click', () => {
-        const index = parseInt(indicator.getAttribute('data-index'));
-        if (currentIndex !== index) {
-          stopAutoSlide();
-          goToSlide(index);
-          startAutoSlide();
+        const dataIndex = indicator.getAttribute('data-index');
+        if (dataIndex !== null) {
+          const index = parseInt(dataIndex);
+          if (currentIndex !== index) {
+            stopAutoSlide();
+            goToSlide(index);
+            startAutoSlide();
+          }
         }
       });
     });
     
     // Pause on hover
-    const carousel = document.querySelector('.carousel-container');
     carousel.addEventListener('mouseenter', stopAutoSlide);
     carousel.addEventListener('mouseleave', startAutoSlide);
     
