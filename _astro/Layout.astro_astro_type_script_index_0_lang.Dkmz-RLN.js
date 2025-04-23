@@ -1,0 +1,1 @@
+import{g as r,S as g}from"./ScrollTrigger.CKx49QUS.js";r.registerPlugin(g);r.from(".fade-in",{opacity:0,y:50,duration:1,stagger:.2,ease:"power3.out",scrollTrigger:{trigger:".fade-in",start:"top 80%"}});
