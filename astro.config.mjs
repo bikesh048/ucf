@@ -10,4 +10,8 @@ export default defineConfig({
   base: "/ucf",
   publicDir: "./public",
   output: "static",
+  outDir: "./docs",
+  build: {
+    assets: "astro",
+  },
 });
