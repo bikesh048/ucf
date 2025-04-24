@@ -9,5 +9,5 @@ export default defineConfig({
   site: "https://bikesh048.github.io",
   base: "/ucf",
   publicDir: "./public",
-  // output: "static",
+  output: "static",
 });
